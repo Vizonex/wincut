@@ -6,15 +6,12 @@
 #include <string.h>
 #include <ctype.h>
 #include "optparse.h"
-#include "config.h"
+#include "dconfig.h"
 #include "const.h"
 #include "bytesize.h"
 #include "error.h"
 #include "debug.h"
-
-#define isatty _isatty 
-
-#define STDIN_FILENO _fileno(stdin) 
+#include "defines.h"
 
 /** Arguments configuration for getopt_long().
  */
@@ -90,7 +87,7 @@ static void setopt_memlimit(const char *value)
 {
     long        memlimit;
 
-    memlimit = bytesize(value);
+    memlimit = (long)bytesize(value);
 
     if (memlimit < 0)
         bad_argument("memlimit", value, "not a positive value");

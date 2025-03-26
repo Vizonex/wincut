@@ -5,7 +5,7 @@
 #include "status.h"
 #include "error.h"
 #include "debug.h"
-#include "mimalloc.h"
+// #// include "mimalloc.h".h"
 
 
 void        init_hmap(size_t size)
@@ -16,7 +16,7 @@ void        init_hmap(size_t size)
     if (g_hmap.ptr != NULL)
         error("init_hmap(): singleton called twice !");
 
-    area = (t_line*) mi_malloc(size * sizeof(t_line));
+    area = (t_line*) malloc(size * sizeof(t_line));
     if (area == NULL)
         die("cannot malloc() hash map");
 
@@ -32,7 +32,7 @@ void        destroy_hmap(void)
     DLOG2("CALL destroy_hmap()");
     if (g_hmap.ptr != NULL)
     {
-        mi_free(g_hmap.ptr);
+        free(g_hmap.ptr);
         g_hmap.ptr = NULL;
     }
 }

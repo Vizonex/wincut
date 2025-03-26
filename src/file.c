@@ -1,3 +1,4 @@
+#include <windows.h>
 #include <stdlib.h>
 // Obviously can't do that...
 // #include <unistd.h> 
@@ -7,21 +8,44 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <ctype.h>
+
+// Renamed to not confuse with the pthread folder.
+// #include "config.h"
+
+
+#include <mmiscapi.h>
 #include "file.h"
 #include "const.h"
 #include "status.h"
 #include "error.h"
 #include "debug.h"
 #include "bytesize.h"
-#include "config.h"
-
-
-#include <windows.h>
-#include <mmiscapi.h>
 #include "defines.h"
-#include "mmap.h"
+#include "mman.h"
+#include "mkstemp.h"
+#include "dconfig.h"
 
-#define mktemp _mktemp 
+
+// SEE: https://stackoverflow.com/a/62371749
+// Windows does not define the S_ISREG and S_ISDIR macros in stat.h, so we do.
+// We have to define _CRT_INTERNAL_NONSTDC_NAMES 1 before #including sys/stat.h
+// in order for Microsoft's stat.h to define names like S_IFMT, S_IFREG, and S_IFDIR,
+// rather than just defining  _S_IFMT, _S_IFREG, and _S_IFDIR as it normally does.
+#define _CRT_INTERNAL_NONSTDC_NAMES 1
+#if !defined(S_ISREG) && defined(S_IFMT) && defined(S_IFREG)
+  #define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
+#endif
+#if !defined(S_ISDIR) && defined(S_IFMT) && defined(S_IFDIR)
+  #define S_ISDIR(m) (((m) & S_IFMT) == S_IFDIR)
+#endif
+
+
+
+// According to stack overflow...
+// SEE: https://stackoverflow.com/a/76196125
+#include <io.h>
+#define ftruncate _chsize_s
+
 
 #define FILE_ISSET(_f) ((_f)->fd >= 0)
 #define BUF_SIZE       (0x20000) /* 128kb */
@@ -212,7 +236,7 @@ void        init_file(const char *infile_name, const char *outfile_name)
     set_status(FILE_SIZE, g_infile.info.st_size);
     copy_file(file->fd, g_infile.fd, 1);
     close_file(&g_infile);
-
+    
     if (fstat(file->fd, &(file->info)) < 0)
         error("couldn't stat %s: %s", file->name, ERRNO);
     if (file->info.st_size == 0)

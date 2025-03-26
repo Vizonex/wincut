@@ -7,9 +7,10 @@
 #include "hmap.h"
 #include "hash.h"
 #include "const.h"
-#include "config.h"
+#include "dconfig.h"
 #include "status.h"
 #include "debug.h"
+#// include "mimalloc.h".h"
 
 
 
@@ -111,6 +112,7 @@ void        cleanout_chunk(t_chunk *chunk)
     while (get_next_line(&line, chunk, &junk_lines))
     {
         slot = HASH(&line) % g_hmap.size;
+        // printf("CHECKING %s", line);
         while (LINE_ISSET(g_hmap.ptr[slot]))
         {
             if (cmp_line(&line, &g_hmap.ptr[slot]) == 0)

@@ -5,8 +5,16 @@
 #include <stddef.h>
 
 #include <io.h>
-#include <windows.h>
 #include <sys/types.h>
+
+// AI Told me - Vizonex
+
+static int vdprintf(int fd, const char* format, va_list ap) {
+    FILE* f = fdopen(fd, "w"); // Convert file descriptor to FILE* pointer
+    int rc = vfprintf(f, format, ap); // Write formatted output
+    fclose(f); // Close the file
+    return rc;
+}
 
 /** Ignore warning:
  * ignoring return value of ‘write’, declared with attribute warn_unused_result
