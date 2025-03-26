@@ -5,3 +5,8 @@ Here I go once again to prove that the impossible can be done.
 ## Good News
 - It compiles
 - And it works!!!
+- Your Likely Decades of waiting is over!!!
+
+## TODOS
+- [ ] add mimalloc or make it entirely optional...
+- [ ] Fixing terminal colors, Currently turned it off temporarly...
