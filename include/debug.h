@@ -1,18 +1,23 @@
 #ifndef DEBUG_H
 # define DEBUG_H
 
+
+// #define DEBUG 4
+
+
 /*
  * Define DLOG macros
  */
 # if DEBUG >= 1
-#  include <unistd.h>
+// #  include <unistd.h>
+#  include <io.h>
 #  include <stdio.h>
 #  include <stdarg.h>
 #  include <time.h>
 
 #  pragma GCC diagnostic push
 #  pragma GCC diagnostic ignored "-Wunused-function"
-static void _dlog(int level, const char *file, int line, const char *fmt, ...)
+static void __dlog(int level, const char *file, int line, const char *fmt, ...)
 {
     char        out[1024] = {0};
     int         i = 0;
@@ -22,8 +27,9 @@ static void _dlog(int level, const char *file, int line, const char *fmt, ...)
 
     va_list ap;
 
-    if (isatty(STDERR_FILENO))
+    if (isatty(2))
         i = snprintf(&out[i], 64, "\e[34;1m[\e[33;1mDLOG%d\e[0;35m ", level);
+        
     else
         i = snprintf(&out[i], 64, "[DLOG%d ", level);
 
@@ -31,7 +37,7 @@ static void _dlog(int level, const char *file, int line, const char *fmt, ...)
     tm_info = localtime(&now);
     i += strftime(&out[i], 12, "%d %H:%M:%S", tm_info);
 
-    if (isatty(STDERR_FILENO))
+    if (isatty(2))
         i += snprintf(&out[i], 128, " \e[1;35m%10s:%-3d\e[34;1m]:\e[0m ",
                 &file[4], line);
     else
@@ -44,32 +50,32 @@ static void _dlog(int level, const char *file, int line, const char *fmt, ...)
 
     out[i++] = '\n';
 
-    write(STDERR_FILENO, out, i);
+    write(2, out, i);
 }
 #  pragma GCC diagnostic pop
 
 # endif
 
 # if DEBUG >= 1
-#  define DLOG1(...) (_dlog(1, __FILE__, __LINE__, __VA_ARGS__))
+#  define DLOG1(...) (__dlog(1, __FILE__, __LINE__, __VA_ARGS__))
 # else
 # define DLOG1(...)
 # endif
 
 # if DEBUG >= 2
-#  define DLOG2(...) (_dlog(2, __FILE__, __LINE__, __VA_ARGS__))
+#  define DLOG2(...) (__dlog(2, __FILE__, __LINE__, __VA_ARGS__))
 # else
 # define DLOG2(...)
 # endif
 
 # if DEBUG >= 3
-#  define DLOG3(...) (_dlog(3, __FILE__, __LINE__, __VA_ARGS__))
+#  define DLOG3(...) (__dlog(3, __FILE__, __LINE__, __VA_ARGS__))
 # else
 # define DLOG3(...)
 # endif
 
 # if DEBUG >= 4
-#  define DLOG4(...) (_dlog(4, __FILE__, __LINE__, __VA_ARGS__))
+#  define DLOG4(...) (__dlog(4, __FILE__, __LINE__, __VA_ARGS__))
 # else
 # define DLOG4(...)
 # endif

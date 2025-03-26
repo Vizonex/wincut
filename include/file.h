@@ -1,6 +1,4 @@
 #pragma once
-
-#include <windows.h>
 #include <sys/stat.h>
 
 struct file

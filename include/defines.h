@@ -1,8 +1,10 @@
 #ifndef __DEFINES_H__
 #define __DEFINES_H__
 
+
 #include <stdlib.h>
-#include <io.h>
+// #include <io.h>
+#include <stdio.h>
 
 // We don't have ssize_t as far as I'm aware...
 
@@ -19,6 +21,11 @@ typedef long long ssize_t;
     #endif
 #endif
 
+
+#define isatty _isatty 
+
+#define STDIN_FILENO _fileno(stdin) 
+// #define STDERR_FILENO _fileno(stderr)
 
 
 
