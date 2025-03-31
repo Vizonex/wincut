@@ -18,7 +18,6 @@ static int          get_page_size(void)
     GetSystemInfo(&sys_info);
     // page_size = sysconf(_SC_PAGESIZE);
     
-
     if (sys_info.dwPageSize < 0)
         error("sysconf(_SC_PAGESIZE): %s", ERRNO);
 
@@ -58,8 +57,6 @@ void        update_memstate(struct memstate *m)
  */
 void        init_memstate(struct memstate *m)
 {
-    // printf("get_page_size();");
     m->page_size = get_page_size();
-    // printf("get_mem_avilable();");
     m->mem_available = get_mem_available();
 }

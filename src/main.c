@@ -131,7 +131,8 @@ int main(int argc, char **argv)
     update_status(FCLEAN_START);
     remove_duplicates();
     destroy_file();
-
+    
     display_report();
+    
     return (0);
 }

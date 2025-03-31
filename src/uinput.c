@@ -54,26 +54,19 @@ void displayInputs(bool display) {
         fprintf(stderr, "GetStdHandle failed (error %lu)\n", GetLastError());
         return;
     }
+    // TODO (Vizonex) Macro wapper for functions like this with line number where program failure occured...
 
     DWORD mode;
-    if (!GetConsoleMode(hStdIn, &mode)) {
-        fprintf(stderr, "GetConsoleMode failed (error %lu)\n", GetLastError());
-        return;
-    }
+    HANDLE_WINDOWS_FUNCTION_WITH_VOID(GetConsoleMode, hStdIn, &mode)
 
     if (display) {
         // Set Flag to allow inputs to be echoed
-        
-        if (!SetConsoleMode(hStdIn, mode | ENABLE_ECHO_INPUT | ENABLE_VIRTUAL_TERMINAL_PROCESSING)) {
-            fprintf(stderr, "SetConsoleMode failed (error %lu)\n", GetLastError());
-            return;
-        }
+        HANDLE_WINDOWS_FUNCTION_WITH_VOID(SetConsoleMode, hStdIn, mode | ENABLE_ECHO_INPUT)
+         
     } else {
         // Remove Flag to allow inputs to be echoed
-        if (!SetConsoleMode(hStdIn, mode & ~(DWORD)(ENABLE_ECHO_INPUT))) {
-            fprintf(stderr, "SetConsoleMode failed (error %lu)\n", GetLastError());
-            return;
-        }
+        HANDLE_WINDOWS_FUNCTION_WITH_VOID(SetConsoleMode, hStdIn, mode & ~(DWORD)(ENABLE_ECHO_INPUT)) 
+        
     }
 }
 

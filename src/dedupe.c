@@ -12,8 +12,10 @@
 #include "error.h"
 #include "debug.h"
 
+#include "alloc.h"
+
+
 // Time to add my modifications 
-#// include "mimalloc.h".h"
 
 // #define MULTITHREADING 1
 
@@ -30,9 +32,9 @@ static void     tag_subchunks(threadpool thpool, const t_chunk *parent)
     memcpy(&chunk, parent, sizeof(t_chunk));
     while (get_next_chunk(&chunk, g_file))
     {
-        heap_chunk = malloc(sizeof(t_chunk));
+        heap_chunk = nmalloc(sizeof(t_chunk));
         if (heap_chunk == NULL)
-            die("cannot malloc() heap_chunk");
+            die("cannot nmalloc() heap_chunk");
         memcpy(heap_chunk, &chunk, sizeof(t_chunk));
         /* thpool already prints error unless DISABLE_PRINT is defined */
         if (thpool_add_work(thpool, (void*)cleanout_chunk, heap_chunk) != 0)
@@ -81,9 +83,9 @@ static void     tag_subchunks(const t_chunk *parent)
     memcpy(&chunk, parent, sizeof(t_chunk));
     while (get_next_chunk(&chunk, g_file))
     {
-        heap_chunk = malloc(sizeof(t_chunk));
+        heap_chunk = nmalloc(sizeof(t_chunk));
         if (heap_chunk == NULL)
-            die("cannot malloc() heap_chunk");
+            die("cannot nmalloc() heap_chunk");
         memcpy(heap_chunk, &chunk, sizeof(t_chunk));
 
         cleanout_chunk(heap_chunk);

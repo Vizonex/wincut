@@ -10,7 +10,8 @@
 #include "dconfig.h"
 #include "status.h"
 #include "debug.h"
-#// include "mimalloc.h".h"
+
+#include "alloc.h"
 
 
 
@@ -134,6 +135,6 @@ void        cleanout_chunk(t_chunk *chunk)
     set_status(TAGDUP_BYTES, (size_t)(chunk->ptr - base_ptr));
     set_status(TAGDUP_DUPLICATES, (size_t)duplicates);
     set_status(TAGDUP_JUNK_LINES, junk_lines);
-    free(chunk);
+    nfree(chunk);
     update_status(CTASK_DONE);
 }

@@ -5,7 +5,8 @@
 #include "status.h"
 #include "error.h"
 #include "debug.h"
-// #// include "mimalloc.h".h"
+
+#include "alloc.h"
 
 
 void        init_hmap(size_t size)
@@ -16,7 +17,7 @@ void        init_hmap(size_t size)
     if (g_hmap.ptr != NULL)
         error("init_hmap(): singleton called twice !");
 
-    area = (t_line*) malloc(size * sizeof(t_line));
+    area = (t_line*) nmalloc(size * sizeof(t_line));
     if (area == NULL)
         die("cannot malloc() hash map");
 
@@ -32,7 +33,7 @@ void        destroy_hmap(void)
     DLOG2("CALL destroy_hmap()");
     if (g_hmap.ptr != NULL)
     {
-        free(g_hmap.ptr);
+        nfree(g_hmap.ptr);
         g_hmap.ptr = NULL;
     }
 }
@@ -79,7 +80,7 @@ void        populate_hmap(t_chunk *chunk)
             {
                 /* use first free slot */
                 g_hmap.ptr[slot] = line;
-                /* DLOG4("ADD HMAP ENTRY, slot=%ld, line_addr=%p, line_size=%d, line=%.*s", slot, LINE_ADDR(line), LINE_SIZE(line), LINE_SIZE(line), LINE_ADDR(line)); */
+                DLOG4("ADD HMAP ENTRY, slot=%ld, line_addr=%p, line_size=%d, line=%.*s", slot, LINE_ADDR(line), LINE_SIZE(line), LINE_SIZE(line), LINE_ADDR(line));
 #if DEBUG >= 2
                 filled++;
 #endif

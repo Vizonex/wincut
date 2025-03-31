@@ -1,9 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
-// include "mimalloc.h".h"
+
 #include "meminfo.h"
 #include "error.h"
 #include "bytesize.h"
+
+#include "alloc.h"
 
 // Because windows does not have a proper getline implementation
 // we have to get creative...
@@ -21,7 +23,7 @@ long long getline(char **lineptr, size_t *n, FILE *stream) {
     while ((c = getc(stream)) != EOF) {
         if (size >= capacity) {
             capacity = (capacity == 0) ? 32 : capacity * 2;
-            buffer = realloc(buffer, capacity);
+            buffer = nrealloc(buffer, capacity);
             if (buffer == NULL) {
                 return -1;
             }
