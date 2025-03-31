@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7.2)
-project("wincut" VERSION 0.0.1)
+project("wincut" VERSION 0.0.2)
 set("PROJECT_DESCRIPTION" "A Duplicut fork for windows")
 
 # Setup Sources list...
@@ -33,9 +33,8 @@ set(
     vendor/pthreads
     vendor
 )
-
-# mimalloc optimizations isnt ready yet but toying around with the executable is...
-set(wincut_libraries psapi shell32 user32 advapi32 bcrypt libpthreadVC3)
+# mimalloc option has now been implemented correctly...
+set(wincut_libraries psapi shell32 user32 advapi32 bcrypt libpthreadVC3 mimalloc) 
 
 add_executable(
     wincut ${wincut_sources}
