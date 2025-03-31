@@ -8,8 +8,8 @@ Here I go once again to prove that the impossible can be done.
 - Your Likely Decades of waiting is over!!!
 
 ## TODOS
-- [ ] add mimalloc or make it entirely optional...
+- [x] add mimalloc or make it entirely optional... (Made Mimalloc Optional, SEE: const.h)
 - [ ] Fixing terminal colors, Currently turned it off temporarly...
 - [ ] Youtube video? Maybe I have a few months off as of 2025...
-- [ ] I think I want to add a feature that allows us to use it on larger files that are over 1-4 Gigabytes
+- [ ] I think I want to add a feature that allows us to use it on larger files that are over 1-4 Gigabytes, (Still trying to figure out how we will test this...)
 - [ ] Code might get dual licensed where the edits I made are AGPL while duplicut's code remains GPL
