@@ -24,3 +24,8 @@
 
 /* display program status periodically instead of waiting keypress */
 #define DEBUG_PROGRAM_STATUS    (0)
+
+
+/* This is a special wincut setting for setting up Mimalloc instead of malloc */
+#define USE_MIMALLOC (1)
+

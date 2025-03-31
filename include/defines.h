@@ -24,11 +24,23 @@ typedef long long ssize_t;
 
 #define isatty _isatty 
 
+// TODO Fix all FILENO Macros...
+
 #define STDIN_FILENO _fileno(stdin) 
 // #define STDERR_FILENO _fileno(stderr)
 
+// Small Macro for formatting Errors if any occur during This Specific function
+#define HANDLE_WINDOWS_FUNCTION_WITH_RET(FUNC, ...) \
+    if (!FUNC(__VA_ARGS__)){ \
+        fprintf(stderr, #FUNC " failed (error %lu)\n", GetLastError());\
+        return -1; \
+    }
 
-
+#define HANDLE_WINDOWS_FUNCTION_WITH_VOID(FUNC, ...) \
+    if (!FUNC(__VA_ARGS__)){ \
+        fprintf(stderr, #FUNC " failed (error %lu)\n", GetLastError());\
+        return; \
+    }
 
 
 
