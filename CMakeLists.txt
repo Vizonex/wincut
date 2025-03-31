@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7.2)
-project("wincut" VERSION 0.0.2)
+project("wincut" VERSION 0.0.3)
 set("PROJECT_DESCRIPTION" "A Duplicut fork for windows")
 
 # Setup Sources list...
